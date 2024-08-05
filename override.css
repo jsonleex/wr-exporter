@@ -1,0 +1,14 @@
+/* 隐藏翻页按钮 */
+.renderTarget_pager {
+  opacity: 0 !important;
+}
+
+/* 移除二级标题横线 */
+.wr_decoration:not(.wr_readerBackground_opacity) {
+  border-top: 0 !important;
+}
+
+/* Only for empty screenshot test */
+/* .renderTargetContainer {
+  opacity: 0 !important;
+}  */
