@@ -114,9 +114,6 @@ def export_book(driver: webdriver.Chrome, book_url: str, output: str):
     # inject custom styles
     inject_custom_styles(driver)
 
-    # Resize window
-    driver.set_window_size(540, 960)  # Screenshot => 1080x1920
-
     count = 0
     empty_count = 0
 
@@ -172,7 +169,10 @@ def main(args):
     print(f"📁 {output}")
     print(f"🔗 {url}")
 
-    driver = get_chrome_driver(dev)
+    driver = get_chrome_driver(
+        dev=dev,
+        window_size="540,960",
+    )
     driver.get(url)
     driver.implicitly_wait(10)
 
