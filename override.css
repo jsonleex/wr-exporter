@@ -15,3 +15,8 @@
 .renderTargetContainer .renderTargetContent .reader_footer_note {
   opacity: 0 !important;
 }
+
+/* 隐藏 “全书完” */
+.reader_back_cover_inner {
+  opacity: 0 !important;
+}

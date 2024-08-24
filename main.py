@@ -97,13 +97,6 @@ def inject_custom_styles(driver: webdriver.Chrome, style_path: str = "override.c
     )
 
 
-def is_empty_screenshot(fpath: str) -> bool:
-    if not os.path.exists(fpath):
-        raise ValueError(f"File not found: {fpath}")
-
-    return os.path.getsize(fpath) <= 10763  # 10663 + 100
-
-
 def export_book(driver: webdriver.Chrome, book_url: str, output: str):
     if driver.current_url != book_url:
         driver.get(book_url)
@@ -128,13 +121,14 @@ def export_book(driver: webdriver.Chrome, book_url: str, output: str):
 
             driver.save_screenshot(filepath)
 
-            if is_empty_screenshot(filepath):
-                empty_count += 1
-            else:
-                empty_count = max(0, empty_count - 1)
+            back_covers = [
+                el
+                for el in driver.find_elements(By.CLASS_NAME, "reader_back_cover_inner")
+                if "display: none" not in el.get_attribute("style")
+            ]
 
-            if empty_count >= 5:
-                print(f"🟣 Too many empty pages. Maybe the book is finished.")
+            if len(back_covers) > 0:
+                print(f"🟣 Found back cover. Maybe the book is finished.")
                 break
 
             next_button = driver.find_element(
