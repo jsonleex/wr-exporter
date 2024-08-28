@@ -38,7 +38,7 @@ def get_chrome_driver(
 
     return webdriver.Chrome(
         options=options,
-        service=Service(ChromeDriverManager().install()),
+        service=Service(ChromeDriverManager(driver_version="128.0.6613.85").install()),
     )
 
 
@@ -123,6 +123,7 @@ def export_book(driver: webdriver.Chrome, book_url: str, output: str):
 
             back_covers = [
                 el
+                # TODO fix this, it's not working
                 for el in driver.find_elements(By.CLASS_NAME, "reader_back_cover_inner")
                 if "display: none" not in el.get_attribute("style")
             ]
@@ -165,7 +166,9 @@ def main(args):
 
     driver = get_chrome_driver(
         dev=dev,
-        window_size="540,960",
+        # to make sure screenshot is 1080 x 1920
+        # (1920 + 87 * 2) / 2 = 1047
+        window_size="540,1047",
     )
     driver.get(url)
     driver.implicitly_wait(10)
